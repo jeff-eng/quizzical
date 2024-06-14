@@ -1,46 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AnswerChoice from './AnswerChoice';
 
-export default function Question() {
+export default function TriviaQuestion({ questionObj, questionIndex }) {
   const [selectedAnswer, setSelectedAnswer] = useState('');
+  const [answerChoices, setAnswerChoices] = useState([]);
 
-  function handleChange(event) {
-    const { name, value, type, checked } = event.target;
+  // Shuffle array containing both incorrect and correct answers (only on first render)
+  useEffect(() => {
+    const shuffledAnswerChoices = shuffleArray([
+      ...questionObj.incorrect_answers,
+      questionObj.correct_answer,
+    ]);
 
-    setSelectedAnswer(value);
+    setAnswerChoices(shuffledAnswerChoices);
+  }, []);
+
+  const answerChoiceElements = answerChoices.map((choice, index) => {
+    return (
+      <AnswerChoice
+        key={index}
+        id={`${questionObj.id}__${index}`}
+        answerText={choice}
+        name={`question${questionIndex}`}
+      />
+    );
+  });
+
+  function shuffleArray(array) {
+    return array.sort(() => Math.random() - 0.5);
   }
 
   return (
     <article>
       <fieldset>
-        <legend>
-          Which best selling toy of 1983 caused hysteria, resulting in riots
-          breaking in stores?
-        </legend>
-        <AnswerChoice
-          name="question1"
-          id="answerChoice1"
-          value="Cabbage Patch Kids"
-          handleChange={handleChange}
-        />
-        <AnswerChoice
-          name="question1"
-          id="answerChoice2"
-          value="Transformers"
-          handleChange={handleChange}
-        />
-        <AnswerChoice
-          name="question1"
-          id="answerChoice3"
-          value="Care Bears"
-          handleChange={handleChange}
-        />
-        <AnswerChoice
-          name="question1"
-          id="answerChoice4"
-          value="Rubik's Cube"
-          handleChange={handleChange}
-        />
+        <legend>{questionObj.question}</legend>
+        {answerChoiceElements}
       </fieldset>
     </article>
   );
