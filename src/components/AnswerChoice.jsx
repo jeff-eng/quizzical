@@ -1,14 +1,8 @@
-export default function AnswerChoice(props) {
+export default function AnswerChoice({ id, answerText, name }) {
   return (
     <div>
-      <input
-        type="radio"
-        id={props.id}
-        name={props.name}
-        value={props.value}
-        onChange={props.handleChange}
-      />
-      <label htmlFor="answerChoice1">{props.value}</label>
+      <input type="radio" id={id} name={name} value={answerText} />
+      <label htmlFor={id}>{answerText}</label>
     </div>
   );
 }
