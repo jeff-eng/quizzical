@@ -41,8 +41,14 @@ export default function Main() {
       key={question.id}
       questionObj={question}
       questionIndex={index}
+      handleChange={handleChange}
     />
   ));
+
+  // Handle change in AnswerChoice component
+  function handleChange(questionId, chosenAnswer) {
+    console.log(`Hello from Main! ${questionId} ${chosenAnswer}`);
+  }
 
   return <main>{triviaQuestionElements}</main>;
 }
