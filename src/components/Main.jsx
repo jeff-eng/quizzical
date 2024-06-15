@@ -4,8 +4,8 @@ import data from '../../data';
 import { nanoid } from 'nanoid';
 
 export default function Main() {
-  // Trivia Question state here
   const [triviaQuestions, setTriviaQuestions] = useState([]);
+  const [correctScore, setCorrectScore] = useState(0);
 
   useEffect(() => {
     // const getTriviaQuestions = async () => {
@@ -63,5 +63,23 @@ export default function Main() {
     );
   }
 
-  return <main>{triviaQuestionElements}</main>;
+  function handleClick() {
+    const correctQuestions = triviaQuestions.filter(
+      question => question.correct_answer === question.selectedAnswer,
+    );
+
+    setCorrectScore(correctQuestions.length);
+  }
+
+  return (
+    <main>
+      {triviaQuestionElements}
+      <section>
+        <p>{correctScore}</p>
+        <button type="button" onClick={handleClick}>
+          Check answers
+        </button>
+      </section>
+    </main>
+  );
 }
