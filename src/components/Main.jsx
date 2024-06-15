@@ -36,6 +36,10 @@ export default function Main() {
     setTriviaQuestions(triviaObjects);
   }, []);
 
+  useEffect(() => {
+    console.log(triviaQuestions);
+  }, [triviaQuestions]);
+
   const triviaQuestionElements = triviaQuestions.map((question, index) => (
     <TriviaQuestion
       key={question.id}
@@ -48,6 +52,15 @@ export default function Main() {
   // Handle change in AnswerChoice component
   function handleChange(questionId, chosenAnswer) {
     console.log(`Hello from Main! ${questionId} ${chosenAnswer}`);
+
+    // Remember, you can't update triviaQuestion directly - need to use setter function
+    setTriviaQuestions(prevTriviaQuestions =>
+      prevTriviaQuestions.map(question => {
+        return questionId === question.id
+          ? { ...question, selectedAnswer: chosenAnswer }
+          : question;
+      }),
+    );
   }
 
   return <main>{triviaQuestionElements}</main>;
