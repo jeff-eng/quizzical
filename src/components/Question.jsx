@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import AnswerChoice from './AnswerChoice';
 
-export default function TriviaQuestion({ questionObj, questionIndex }) {
+export default function TriviaQuestion({
+  questionObj,
+  questionIndex,
+  handleChange,
+}) {
   const [selectedAnswer, setSelectedAnswer] = useState('');
   const [answerChoices, setAnswerChoices] = useState([]);
 
@@ -22,6 +26,8 @@ export default function TriviaQuestion({ questionObj, questionIndex }) {
         id={`${questionObj.id}__${index}`}
         answerText={choice}
         name={`question${questionIndex}`}
+        questionId={questionObj.id}
+        handleChange={handleChange}
       />
     );
   });
