@@ -8,6 +8,7 @@ export default function Main() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [areAllAnswered, setAreAllAnswered] = useState(false);
   const [correctScore, setCorrectScore] = useState(0);
+  const [questionCount, setQuestionCount] = useState(0);
 
   useEffect(() => {
     // const getTriviaQuestions = async () => {
@@ -45,6 +46,7 @@ export default function Main() {
     });
 
     setTriviaQuestions(triviaObjects);
+    setQuestionCount(triviaObjects.length);
   }, []);
 
   // Check that every question has an answer selected
@@ -99,11 +101,30 @@ export default function Main() {
     <main>
       <section>{triviaQuestionElements}</section>
       <section>
-        {isSubmitted && <p>{correctScore}</p>}
-        <button type="button" onClick={handleClick} disabled={!areAllAnswered}>
-          Check answers
-        </button>
+        {!isSubmitted ? (
+          <div>
+            <button
+              type="button"
+              onClick={handleClick}
+              disabled={!areAllAnswered}
+            >
+              Check answers
+            </button>
+          </div>
+        ) : (
+          <div>
+            <p>
+              You answered {correctScore} out of {questionCount} questions
+              correctly.
+            </p>
+            <button type="button">Play again</button>
+          </div>
+        )}
       </section>
     </main>
   );
+}
+
+{
+  /* <p>{correctScore}</p> */
 }
