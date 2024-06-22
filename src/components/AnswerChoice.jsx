@@ -4,7 +4,26 @@ export default function AnswerChoice({
   name,
   questionId,
   handleChange,
+  isSubmitted,
+  correctAnswer,
+  selectedAnswer,
 }) {
+  let styles;
+
+  if (isSubmitted && answerText === correctAnswer) {
+    styles = {
+      backgroundColor: '#AFE1AF',
+    };
+  } else if (
+    isSubmitted &&
+    selectedAnswer !== correctAnswer &&
+    selectedAnswer === answerText
+  ) {
+    styles = {
+      backgroundColor: '#FAA0A0',
+    };
+  }
+
   return (
     <div>
       <input
@@ -14,7 +33,9 @@ export default function AnswerChoice({
         value={answerText}
         onChange={() => handleChange(questionId, answerText)}
       />
-      <label htmlFor={id}>{answerText}</label>
+      <label htmlFor={id} style={styles}>
+        {answerText}
+      </label>
     </div>
   );
 }
