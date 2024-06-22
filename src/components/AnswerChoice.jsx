@@ -32,7 +32,6 @@ export default function AnswerChoice({
         name={name}
         value={answerText}
         onChange={() => handleChange(questionId, answerText)}
-        disabled={isSubmitted}
       />
       <label htmlFor={id} style={styles}>
         {answerText}
