@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import TriviaQuestion from './Question';
+import TriviaQuestion from './TriviaQuestion';
 import data from '../../data';
 import { nanoid } from 'nanoid';
 
 export default function Main() {
   const [triviaQuestions, setTriviaQuestions] = useState([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [areAllAnswered, setAreAllAnswered] = useState(false);
   const [correctScore, setCorrectScore] = useState(0);
 
   useEffect(() => {
@@ -27,8 +29,17 @@ export default function Main() {
 
     const triviaObjects = data.results.map(triviaObj => {
       return {
-        ...triviaObj,
         id: nanoid(),
+        type: triviaObj.type,
+        difficulty: triviaObj.difficulty,
+        category: triviaObj.category,
+        question: triviaObj.question,
+        correctAnswer: triviaObj.correct_answer,
+        incorrectAnswers: triviaObj.incorrect_answers,
+        shuffledArray: shuffleArray([
+          ...triviaObj.incorrect_answers,
+          triviaObj.correct_answer,
+        ]),
         selectedAnswer: '',
       };
     });
@@ -36,24 +47,31 @@ export default function Main() {
     setTriviaQuestions(triviaObjects);
   }, []);
 
+  // Check that every question has an answer selected
   useEffect(() => {
-    console.log(triviaQuestions);
+    const allAnswered = triviaQuestions.every(
+      question => question.selectedAnswer,
+    );
+
+    console.log(allAnswered);
+    setAreAllAnswered(allAnswered);
   }, [triviaQuestions]);
 
+  // Create TriviaQuestion component instances
   const triviaQuestionElements = triviaQuestions.map((question, index) => (
     <TriviaQuestion
       key={question.id}
       questionObj={question}
       questionIndex={index}
+      isSubmitted={isSubmitted}
       handleChange={handleChange}
     />
   ));
 
-  // Handle change in AnswerChoice component
+  // Update state when user selects an answer
   function handleChange(questionId, chosenAnswer) {
     console.log(`Hello from Main! ${questionId} ${chosenAnswer}`);
 
-    // Remember, you can't update triviaQuestion directly - need to use setter function
     setTriviaQuestions(prevTriviaQuestions =>
       prevTriviaQuestions.map(question => {
         return questionId === question.id
@@ -63,20 +81,26 @@ export default function Main() {
     );
   }
 
+  // Handling when user clicks on Check Answers button
   function handleClick() {
     const correctQuestions = triviaQuestions.filter(
-      question => question.correct_answer === question.selectedAnswer,
+      question => question.correctAnswer === question.selectedAnswer,
     );
 
     setCorrectScore(correctQuestions.length);
+    setIsSubmitted(true);
+  }
+
+  function shuffleArray(array) {
+    return array.sort(() => Math.random() - 0.5);
   }
 
   return (
     <main>
-      {triviaQuestionElements}
+      <section>{triviaQuestionElements}</section>
       <section>
         <p>{correctScore}</p>
-        <button type="button" onClick={handleClick}>
+        <button type="button" onClick={handleClick} disabled={!areAllAnswered}>
           Check answers
         </button>
       </section>
