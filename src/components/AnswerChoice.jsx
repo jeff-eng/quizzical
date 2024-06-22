@@ -4,7 +4,26 @@ export default function AnswerChoice({
   name,
   questionId,
   handleChange,
+  isSubmitted,
+  correctAnswer,
+  selectedAnswer,
 }) {
+  let styles;
+
+  if (isSubmitted && answerText === correctAnswer) {
+    styles = {
+      backgroundColor: '#AFE1AF',
+    };
+  } else if (
+    isSubmitted &&
+    selectedAnswer !== correctAnswer &&
+    selectedAnswer === answerText
+  ) {
+    styles = {
+      backgroundColor: '#FAA0A0',
+    };
+  }
+
   return (
     <div>
       <input
@@ -13,8 +32,11 @@ export default function AnswerChoice({
         name={name}
         value={answerText}
         onChange={() => handleChange(questionId, answerText)}
+        disabled={isSubmitted}
       />
-      <label htmlFor={id}>{answerText}</label>
+      <label htmlFor={id} style={styles}>
+        {answerText}
+      </label>
     </div>
   );
 }
