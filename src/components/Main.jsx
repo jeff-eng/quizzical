@@ -99,7 +99,7 @@ export default function Main() {
     <main>
       <section>{triviaQuestionElements}</section>
       <section>
-        <p>{correctScore}</p>
+        {isSubmitted && <p>{correctScore}</p>}
         <button type="button" onClick={handleClick} disabled={!areAllAnswered}>
           Check answers
         </button>
