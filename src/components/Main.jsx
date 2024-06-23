@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import TriviaQuestion from './TriviaQuestion';
 import data from '../../data';
 import { nanoid } from 'nanoid';
+import { decode } from 'html-entities';
 
 export default function Main() {
   const [triviaQuestions, setTriviaQuestions] = useState([]);
@@ -11,22 +12,7 @@ export default function Main() {
   const [questionCount, setQuestionCount] = useState(0);
 
   useEffect(() => {
-    // const getTriviaQuestions = async () => {
-    //   // const response = await fetch('https://opentdb.com/api.php?amount=5');
-    //   // const data = await response.json();
-
-    // };
-
-    // getTriviaQuestions();
-
-    // const trivia = data.results.map(question => {
-    //   const randomInt = Math.floor(
-    //     Math.random() * question.incorrect_answers.length,
-    //   );
-    //   console.log(randomInt);
-
-    //   return { ...question, id: nanoid(), selectedAnswer: '' };
-    // });
+    // const triviaObjectsArray = getTriviaQuestions();
 
     const triviaObjects = data.results.map(triviaObj => {
       return {
@@ -34,7 +20,7 @@ export default function Main() {
         type: triviaObj.type,
         difficulty: triviaObj.difficulty,
         category: triviaObj.category,
-        question: triviaObj.question,
+        question: decode(triviaObj.question),
         correctAnswer: triviaObj.correct_answer,
         incorrectAnswers: triviaObj.incorrect_answers,
         shuffledArray: shuffleArray([
@@ -70,6 +56,30 @@ export default function Main() {
     />
   ));
 
+  async function getTriviaQuestions() {
+    const response = await fetch('https://opentdb.com/api.php?amount=5');
+    const data = await response.json();
+
+    const triviaArray = data.results.map(triviaObj => {
+      return {
+        id: nanoid(),
+        type: triviaObj.type,
+        difficulty: triviaObj.difficulty,
+        category: triviaObj.category,
+        question: decode(triviaObj.question),
+        correctAnswer: triviaObj.correct_answer,
+        incorrectAnswers: triviaObj.incorrect_answers,
+        shuffledArray: shuffleArray([
+          ...triviaObj.incorrect_answers,
+          triviaObj.correct_answer,
+        ]),
+        selectedAnswer: '',
+      };
+    });
+
+    return triviaArray;
+  }
+
   // Update state when user selects an answer
   function handleChange(questionId, chosenAnswer) {
     console.log(`Hello from Main! ${questionId} ${chosenAnswer}`);
@@ -91,6 +101,12 @@ export default function Main() {
 
     setCorrectScore(correctQuestions.length);
     setIsSubmitted(true);
+  }
+
+  function resetGame() {
+    alert('Game has been reset');
+    setIsSubmitted(false);
+    setCorrectScore(0);
   }
 
   function shuffleArray(array) {
@@ -117,14 +133,12 @@ export default function Main() {
               You answered {correctScore} out of {questionCount} questions
               correctly.
             </p>
-            <button type="button">Play again</button>
+            <button type="button" onClick={resetGame}>
+              Play again
+            </button>
           </div>
         )}
       </section>
     </main>
   );
-}
-
-{
-  /* <p>{correctScore}</p> */
 }
