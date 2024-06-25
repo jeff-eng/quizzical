@@ -1,3 +1,5 @@
+import { decode } from 'html-entities';
+
 export default function AnswerChoice({
   id,
   answerText,
@@ -34,7 +36,7 @@ export default function AnswerChoice({
         onChange={() => handleChange(questionId, answerText)}
       />
       <label htmlFor={id} style={styles}>
-        {answerText}
+        {decode(answerText)}
       </label>
     </div>
   );

@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import AnswerChoice from './AnswerChoice';
+import { decode } from 'html-entities';
 
 export default function TriviaQuestion({
   questionObj,
@@ -9,9 +9,6 @@ export default function TriviaQuestion({
 }) {
   const { shuffledArray, id, correctAnswer, question, selectedAnswer } =
     questionObj;
-
-  console.log(isSubmitted);
-  console.log(selectedAnswer);
 
   const answerChoiceElements = shuffledArray.map((choice, index) => {
     return (
@@ -29,11 +26,9 @@ export default function TriviaQuestion({
     );
   });
 
-  console.log(questionObj);
-
   return (
     <fieldset disabled={isSubmitted}>
-      <legend>{question}</legend>
+      <legend>{decode(question)}</legend>
       {answerChoiceElements}
     </fieldset>
   );

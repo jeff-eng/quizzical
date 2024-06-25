@@ -1,51 +1,53 @@
 import { useEffect, useState } from 'react';
 import TriviaQuestion from './TriviaQuestion';
-import data from '../../data';
+// import data from '../../data';
 import { nanoid } from 'nanoid';
+// import { decode } from 'html-entities';
 
 export default function Main() {
   const [triviaQuestions, setTriviaQuestions] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [areAllAnswered, setAreAllAnswered] = useState(false);
   const [correctScore, setCorrectScore] = useState(0);
+  const [questionCount, setQuestionCount] = useState(0);
+  const [playCount, setPlayCount] = useState(0);
 
   useEffect(() => {
-    // const getTriviaQuestions = async () => {
-    //   // const response = await fetch('https://opentdb.com/api.php?amount=5');
-    //   // const data = await response.json();
+    async function getTriviaQuestions() {
+      try {
+        const response = await fetch('https://opentdb.com/api.php?amount=5');
+        const data = await response.json();
+        const triviaArray = await data.results.map(triviaObj => {
+          return {
+            id: nanoid(),
+            type: triviaObj.type,
+            difficulty: triviaObj.difficulty,
+            category: triviaObj.category,
+            question: triviaObj.question,
+            correctAnswer: triviaObj.correct_answer,
+            incorrectAnswers: triviaObj.incorrect_answers,
+            shuffledArray: shuffleArray([
+              ...triviaObj.incorrect_answers,
+              triviaObj.correct_answer,
+            ]),
+            selectedAnswer: '',
+          };
+        });
 
-    // };
+        setTriviaQuestions(triviaArray);
+        setQuestionCount(triviaArray.length);
+      } catch (err) {
+        console.error(err);
+      }
+    }
 
-    // getTriviaQuestions();
+    // Debounce to preven rate limiting
+    const timeoutId = setTimeout(() => {
+      getTriviaQuestions();
+    }, 1000);
 
-    // const trivia = data.results.map(question => {
-    //   const randomInt = Math.floor(
-    //     Math.random() * question.incorrect_answers.length,
-    //   );
-    //   console.log(randomInt);
-
-    //   return { ...question, id: nanoid(), selectedAnswer: '' };
-    // });
-
-    const triviaObjects = data.results.map(triviaObj => {
-      return {
-        id: nanoid(),
-        type: triviaObj.type,
-        difficulty: triviaObj.difficulty,
-        category: triviaObj.category,
-        question: triviaObj.question,
-        correctAnswer: triviaObj.correct_answer,
-        incorrectAnswers: triviaObj.incorrect_answers,
-        shuffledArray: shuffleArray([
-          ...triviaObj.incorrect_answers,
-          triviaObj.correct_answer,
-        ]),
-        selectedAnswer: '',
-      };
-    });
-
-    setTriviaQuestions(triviaObjects);
-  }, []);
+    return () => clearTimeout(timeoutId);
+  }, [playCount]);
 
   // Check that every question has an answer selected
   useEffect(() => {
@@ -53,7 +55,6 @@ export default function Main() {
       question => question.selectedAnswer,
     );
 
-    console.log(allAnswered);
     setAreAllAnswered(allAnswered);
   }, [triviaQuestions]);
 
@@ -70,8 +71,6 @@ export default function Main() {
 
   // Update state when user selects an answer
   function handleChange(questionId, chosenAnswer) {
-    console.log(`Hello from Main! ${questionId} ${chosenAnswer}`);
-
     setTriviaQuestions(prevTriviaQuestions =>
       prevTriviaQuestions.map(question => {
         return questionId === question.id
@@ -91,6 +90,13 @@ export default function Main() {
     setIsSubmitted(true);
   }
 
+  // Update state variables for new round of trivia questions
+  function resetGame() {
+    setIsSubmitted(false);
+    setCorrectScore(0);
+    setPlayCount(prevPlayCount => (prevPlayCount += 1));
+  }
+
   function shuffleArray(array) {
     return array.sort(() => Math.random() - 0.5);
   }
@@ -99,10 +105,27 @@ export default function Main() {
     <main>
       <section>{triviaQuestionElements}</section>
       <section>
-        <p>{correctScore}</p>
-        <button type="button" onClick={handleClick} disabled={!areAllAnswered}>
-          Check answers
-        </button>
+        {!isSubmitted ? (
+          <div>
+            <button
+              type="button"
+              onClick={handleClick}
+              disabled={!areAllAnswered}
+            >
+              Check answers
+            </button>
+          </div>
+        ) : (
+          <div>
+            <p>
+              You answered {correctScore} out of {questionCount} questions
+              correctly.
+            </p>
+            <button type="button" onClick={resetGame}>
+              Play again
+            </button>
+          </div>
+        )}
       </section>
     </main>
   );
