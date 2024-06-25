@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import TriviaQuestion from './TriviaQuestion';
-import data from '../../data';
+// import data from '../../data';
 import { nanoid } from 'nanoid';
-import { decode } from 'html-entities';
+// import { decode } from 'html-entities';
 
 export default function Main() {
   const [triviaQuestions, setTriviaQuestions] = useState([]);
@@ -10,30 +10,44 @@ export default function Main() {
   const [areAllAnswered, setAreAllAnswered] = useState(false);
   const [correctScore, setCorrectScore] = useState(0);
   const [questionCount, setQuestionCount] = useState(0);
+  const [playCount, setPlayCount] = useState(0);
 
   useEffect(() => {
-    // const triviaObjectsArray = getTriviaQuestions();
+    async function getTriviaQuestions() {
+      try {
+        const response = await fetch('https://opentdb.com/api.php?amount=5');
+        const data = await response.json();
+        const triviaArray = await data.results.map(triviaObj => {
+          return {
+            id: nanoid(),
+            type: triviaObj.type,
+            difficulty: triviaObj.difficulty,
+            category: triviaObj.category,
+            question: triviaObj.question,
+            correctAnswer: triviaObj.correct_answer,
+            incorrectAnswers: triviaObj.incorrect_answers,
+            shuffledArray: shuffleArray([
+              ...triviaObj.incorrect_answers,
+              triviaObj.correct_answer,
+            ]),
+            selectedAnswer: '',
+          };
+        });
 
-    const triviaObjects = data.results.map(triviaObj => {
-      return {
-        id: nanoid(),
-        type: triviaObj.type,
-        difficulty: triviaObj.difficulty,
-        category: triviaObj.category,
-        question: decode(triviaObj.question),
-        correctAnswer: triviaObj.correct_answer,
-        incorrectAnswers: triviaObj.incorrect_answers,
-        shuffledArray: shuffleArray([
-          ...triviaObj.incorrect_answers,
-          triviaObj.correct_answer,
-        ]),
-        selectedAnswer: '',
-      };
-    });
+        setTriviaQuestions(triviaArray);
+        setQuestionCount(triviaArray.length);
+      } catch (err) {
+        console.error(err);
+      }
+    }
 
-    setTriviaQuestions(triviaObjects);
-    setQuestionCount(triviaObjects.length);
-  }, []);
+    // Debounce to preven rate limiting
+    const timeoutId = setTimeout(() => {
+      getTriviaQuestions();
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);
+  }, [playCount]);
 
   // Check that every question has an answer selected
   useEffect(() => {
@@ -41,7 +55,6 @@ export default function Main() {
       question => question.selectedAnswer,
     );
 
-    console.log(allAnswered);
     setAreAllAnswered(allAnswered);
   }, [triviaQuestions]);
 
@@ -56,34 +69,8 @@ export default function Main() {
     />
   ));
 
-  async function getTriviaQuestions() {
-    const response = await fetch('https://opentdb.com/api.php?amount=5');
-    const data = await response.json();
-
-    const triviaArray = data.results.map(triviaObj => {
-      return {
-        id: nanoid(),
-        type: triviaObj.type,
-        difficulty: triviaObj.difficulty,
-        category: triviaObj.category,
-        question: decode(triviaObj.question),
-        correctAnswer: triviaObj.correct_answer,
-        incorrectAnswers: triviaObj.incorrect_answers,
-        shuffledArray: shuffleArray([
-          ...triviaObj.incorrect_answers,
-          triviaObj.correct_answer,
-        ]),
-        selectedAnswer: '',
-      };
-    });
-
-    return triviaArray;
-  }
-
   // Update state when user selects an answer
   function handleChange(questionId, chosenAnswer) {
-    console.log(`Hello from Main! ${questionId} ${chosenAnswer}`);
-
     setTriviaQuestions(prevTriviaQuestions =>
       prevTriviaQuestions.map(question => {
         return questionId === question.id
@@ -103,10 +90,11 @@ export default function Main() {
     setIsSubmitted(true);
   }
 
+  // Update state variables for new round of trivia questions
   function resetGame() {
-    alert('Game has been reset');
     setIsSubmitted(false);
     setCorrectScore(0);
+    setPlayCount(prevPlayCount => (prevPlayCount += 1));
   }
 
   function shuffleArray(array) {
