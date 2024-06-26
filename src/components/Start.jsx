@@ -1,3 +1,6 @@
+import '../styles/start.css';
+import '../styles/base.css';
+
 export default function Start({ startGame }) {
   return (
     <header className="start-header">
@@ -6,7 +9,7 @@ export default function Start({ startGame }) {
         A quiz game featuring random questions across various categories,
         designed to challenge your knowledge and entertain players of all ages.
       </p>
-      <button className="start-header__button-start" onClick={startGame}>
+      <button className="button" onClick={startGame}>
         Start quiz
       </button>
     </header>
