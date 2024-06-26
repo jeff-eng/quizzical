@@ -1,4 +1,3 @@
-import '../styles/App.css';
 import { useState } from 'react';
 import Start from './Start';
 import Main from './Main';
@@ -8,7 +7,6 @@ export default function App() {
   const [quizStarted, setQuizStarted] = useState(false);
 
   function startGame() {
-    console.log('Game has started');
     setQuizStarted(true);
   }
 
