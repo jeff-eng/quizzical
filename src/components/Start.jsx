@@ -9,7 +9,7 @@ export default function Start({ startGame }) {
         A quiz game featuring random questions across various categories,
         designed to challenge your knowledge and entertain players of all ages.
       </p>
-      <button className="button" onClick={startGame}>
+      <button className="start-header__button button" onClick={startGame}>
         Start quiz
       </button>
     </header>
