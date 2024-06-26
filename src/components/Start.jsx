@@ -1,12 +1,14 @@
 export default function Start({ startGame }) {
   return (
-    <header>
-      <h1>Quizzical</h1>
-      <p>
+    <header className="start-header">
+      <h1 className="start-header__heading">Quizzical</h1>
+      <p className="start-header__description">
         A quiz game featuring random questions across various categories,
         designed to challenge your knowledge and entertain players of all ages.
       </p>
-      <button onClick={startGame}>Start quiz</button>
+      <button className="start-header__button-start" onClick={startGame}>
+        Start quiz
+      </button>
     </header>
   );
 }
