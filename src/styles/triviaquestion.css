@@ -3,6 +3,10 @@
   border-bottom: 0.79px solid #dbdef0;
 }
 
+.trivia-question__question-text {
+  font-weight: 700;
+}
+
 .answer-choices-wrapper {
   display: flex;
   flex-wrap: wrap;
