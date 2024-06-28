@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import TriviaQuestion from './TriviaQuestion';
-// import data from '../../data';
 import { nanoid } from 'nanoid';
-// import { decode } from 'html-entities';
+import '../styles/main.css';
 
 export default function Main() {
   const [triviaQuestions, setTriviaQuestions] = useState([]);
@@ -102,12 +101,13 @@ export default function Main() {
   }
 
   return (
-    <main>
-      <section>{triviaQuestionElements}</section>
-      <section>
+    <main className="main">
+      <section className="trivia-wrapper">{triviaQuestionElements}</section>
+      <section className="">
         {!isSubmitted ? (
-          <div>
+          <div className="">
             <button
+              className="button button--primary"
               type="button"
               onClick={handleClick}
               disabled={!areAllAnswered}
@@ -116,12 +116,16 @@ export default function Main() {
             </button>
           </div>
         ) : (
-          <div>
-            <p>
+          <div className="">
+            <p className="">
               You answered {correctScore} out of {questionCount} questions
               correctly.
             </p>
-            <button type="button" onClick={resetGame}>
+            <button
+              className="button button--primary"
+              type="button"
+              onClick={resetGame}
+            >
               Play again
             </button>
           </div>
