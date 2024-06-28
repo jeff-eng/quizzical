@@ -29,7 +29,9 @@ export default function TriviaQuestion({
 
   return (
     <fieldset className="trivia-question" disabled={isSubmitted}>
-      <legend>{decode(question)}</legend>
+      <legend className="trivia-question__question-text">
+        {decode(question)}
+      </legend>
       <div className="answer-choices-wrapper">{answerChoiceElements}</div>
     </fieldset>
   );
