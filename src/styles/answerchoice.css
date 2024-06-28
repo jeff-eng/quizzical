@@ -9,4 +9,11 @@
   border: 0.8px solid #4d5b9e;
   border-radius: 8px;
   padding: 0.5em 1em;
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #4d5b9e;
+    color: #f5f7fb;
+  }
 }
