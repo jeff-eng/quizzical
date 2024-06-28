@@ -1,5 +1,6 @@
 import AnswerChoice from './AnswerChoice';
 import { decode } from 'html-entities';
+import '../styles/triviaquestion.css';
 
 export default function TriviaQuestion({
   questionObj,
@@ -27,9 +28,9 @@ export default function TriviaQuestion({
   });
 
   return (
-    <fieldset disabled={isSubmitted}>
+    <fieldset className="trivia-question" disabled={isSubmitted}>
       <legend>{decode(question)}</legend>
-      {answerChoiceElements}
+      <div className="answer-choices-wrapper">{answerChoiceElements}</div>
     </fieldset>
   );
 }
