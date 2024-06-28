@@ -1,0 +1,12 @@
+.answer__input {
+  display: none;
+}
+
+.answer__label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.64rem;
+  font-weight: 500;
+  border: 0.8px solid #4d5b9e;
+  border-radius: 8px;
+  padding: 0.5em 1em;
+}
