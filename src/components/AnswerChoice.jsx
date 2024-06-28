@@ -1,4 +1,5 @@
 import { decode } from 'html-entities';
+import '../styles/answerchoice.css';
 
 export default function AnswerChoice({
   id,
@@ -29,13 +30,14 @@ export default function AnswerChoice({
   return (
     <div>
       <input
+        className="answer__input"
         type="radio"
         id={id}
         name={name}
         value={answerText}
         onChange={() => handleChange(questionId, answerText)}
       />
-      <label htmlFor={id} style={styles}>
+      <label className="answer__label" htmlFor={id} style={styles}>
         {decode(answerText)}
       </label>
     </div>
