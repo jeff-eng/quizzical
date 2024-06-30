@@ -40,7 +40,7 @@ export default function Main() {
       }
     }
 
-    // Debounce to preven rate limiting
+    // Debounce to prevent rate limiting
     const timeoutId = setTimeout(() => {
       getTriviaQuestions();
     }, 1000);
