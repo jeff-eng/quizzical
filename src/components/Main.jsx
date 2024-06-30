@@ -101,7 +101,7 @@ export default function Main() {
   }
 
   return (
-    <main className="main">
+    <main>
       <section className="trivia-wrapper">{triviaQuestionElements}</section>
       <section className="">
         {!isSubmitted ? (
@@ -116,8 +116,8 @@ export default function Main() {
             </button>
           </div>
         ) : (
-          <div className="">
-            <p className="">
+          <footer className="footer">
+            <p className="footer__score">
               You answered {correctScore} out of {questionCount} questions
               correctly.
             </p>
@@ -128,7 +128,7 @@ export default function Main() {
             >
               Play again
             </button>
-          </div>
+          </footer>
         )}
       </section>
     </main>
