@@ -11,7 +11,16 @@ main {
   row-gap: 1.188em;
 }
 
+.footer {
+  display: flex;
+}
+
+.footer__score {
+  font-weight: 700;
+}
+
 .button--primary {
+  min-width: 104px;
   padding: 1em 1.375em;
   border-radius: 10px;
 }
