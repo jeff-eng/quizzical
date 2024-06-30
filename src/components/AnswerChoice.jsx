@@ -23,7 +23,7 @@ export default function AnswerChoice({
           ? 'answer__label answer__label--selected'
           : isSubmitted
             ? 'answer__label answer__label--unselected'
-            : 'answer__label';
+            : 'answer__label answer__label--hoverable';
 
   return (
     <div>
