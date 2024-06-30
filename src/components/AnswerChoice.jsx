@@ -1,4 +1,5 @@
 import { decode } from 'html-entities';
+import '../styles/answerchoice.css';
 
 export default function AnswerChoice({
   id,
@@ -10,32 +11,31 @@ export default function AnswerChoice({
   correctAnswer,
   selectedAnswer,
 }) {
-  let styles;
-
-  if (isSubmitted && answerText === correctAnswer) {
-    styles = {
-      backgroundColor: '#AFE1AF',
-    };
-  } else if (
-    isSubmitted &&
-    selectedAnswer !== correctAnswer &&
-    selectedAnswer === answerText
-  ) {
-    styles = {
-      backgroundColor: '#FAA0A0',
-    };
-  }
+  // Conditionally determine class for answer choice label styling
+  const answerLabelClasses =
+    isSubmitted && answerText === correctAnswer
+      ? 'answer__label answer__label--correct'
+      : isSubmitted &&
+          selectedAnswer !== correctAnswer &&
+          selectedAnswer === answerText
+        ? 'answer__label answer__label--incorrect'
+        : selectedAnswer === answerText
+          ? 'answer__label answer__label--selected'
+          : isSubmitted
+            ? 'answer__label answer__label--unselected'
+            : 'answer__label answer__label--hoverable';
 
   return (
     <div>
       <input
+        className="answer__radio-btn"
         type="radio"
         id={id}
         name={name}
         value={answerText}
         onChange={() => handleChange(questionId, answerText)}
       />
-      <label htmlFor={id} style={styles}>
+      <label className={answerLabelClasses} htmlFor={id}>
         {decode(answerText)}
       </label>
     </div>

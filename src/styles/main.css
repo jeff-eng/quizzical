@@ -1,0 +1,26 @@
+main {
+  padding: 40px 75px 25px 75px;
+  overflow: scroll;
+  display: grid;
+  justify-items: center;
+  row-gap: 1.313em;
+}
+
+.trivia-wrapper {
+  display: grid;
+  row-gap: 1.188em;
+}
+
+.footer {
+  display: flex;
+}
+
+.footer__score {
+  font-weight: 700;
+}
+
+.button--primary {
+  min-width: 104px;
+  padding: 1em 1.375em;
+  border-radius: 10px;
+}
