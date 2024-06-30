@@ -11,12 +11,12 @@
   padding: 0.5em 1em;
   transition: 0.3s ease-in-out;
   user-select: none;
+}
 
-  &:hover {
-    cursor: pointer;
-    background-color: #4d5b9e;
-    color: #f5f7fb;
-  }
+.answer__label--hoverable:hover {
+  cursor: pointer;
+  background-color: #4d5b9e;
+  color: #f5f7fb;
 }
 
 .answer__label--selected {
@@ -27,28 +27,12 @@
 .answer__label--correct {
   background-color: #94d7a2;
   border: 0.8px solid #94d7a2;
-
-  &:hover {
-    background-color: #94d7a2;
-    border: 0.8px solid #94d7a2;
-  }
 }
 
 .answer__label--incorrect {
   background-color: #f8bcbc;
   border: 0.8px solid #f8bcbc;
   opacity: 50%;
-
-  &:hover {
-    background-color: #f8bcbc;
-    border: 0.8px solid #f8bcbc;
-  }
-}
-
-.answer__label--unselected {
-  &:hover {
-    background-color: initial;
-  }
 }
 
 .answer__label--unselected,
