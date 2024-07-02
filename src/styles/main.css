@@ -1,18 +1,23 @@
 main {
   padding: 40px 75px 25px 75px;
+  display: grid;
   overflow: scroll;
+}
+
+.trivia-container {
   display: grid;
   justify-items: center;
   row-gap: 1.313em;
 }
 
-.trivia-wrapper {
+.trivia-questions {
   display: grid;
   row-gap: 1.188em;
 }
 
 .footer {
   display: flex;
+  justify-content: center;
 }
 
 .footer__score {

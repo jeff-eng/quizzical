@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import TriviaQuestion from './TriviaQuestion';
 import { nanoid } from 'nanoid';
+import ScaleLoader from 'react-spinners/ScaleLoader';
 import '../styles/main.css';
 
 export default function Main() {
@@ -10,8 +11,19 @@ export default function Main() {
   const [correctScore, setCorrectScore] = useState(0);
   const [questionCount, setQuestionCount] = useState(0);
   const [playCount, setPlayCount] = useState(0);
+  const [isFetchingTrivia, setIsFetchingTrivia] = useState(false);
+
+  // CSS override for ScaleLoader
+  const override = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '0 auto',
+  };
 
   useEffect(() => {
+    setIsFetchingTrivia(true);
+    // Async function to fetch new trivia questions
     async function getTriviaQuestions() {
       try {
         const response = await fetch('https://opentdb.com/api.php?amount=5');
@@ -35,6 +47,7 @@ export default function Main() {
 
         setTriviaQuestions(triviaArray);
         setQuestionCount(triviaArray.length);
+        setIsFetchingTrivia(false);
       } catch (err) {
         console.error(err);
       }
@@ -45,7 +58,11 @@ export default function Main() {
       getTriviaQuestions();
     }, 1000);
 
-    return () => clearTimeout(timeoutId);
+    return () => {
+      clearTimeout(timeoutId);
+      // Turn off loading animation
+      setIsFetchingTrivia(false);
+    };
   }, [playCount]);
 
   // Check that every question has an answer selected
@@ -102,35 +119,45 @@ export default function Main() {
 
   return (
     <main>
-      <section className="trivia-wrapper">{triviaQuestionElements}</section>
-      <section className="">
-        {!isSubmitted ? (
-          <div className="">
-            <button
-              className="button button--primary"
-              type="button"
-              onClick={handleClick}
-              disabled={!areAllAnswered}
-            >
-              Check answers
-            </button>
-          </div>
-        ) : (
-          <footer className="footer">
-            <p className="footer__score">
-              You answered {correctScore} out of {questionCount} questions
-              correctly.
-            </p>
-            <button
-              className="button button--primary"
-              type="button"
-              onClick={resetGame}
-            >
-              Play again
-            </button>
-          </footer>
-        )}
-      </section>
+      <ScaleLoader
+        loading={isFetchingTrivia}
+        size={10}
+        cssOverride={override}
+        color={'#4d5b9e'}
+      />
+      {!isFetchingTrivia && (
+        <div className="trivia-container">
+          <section className="trivia-questions">
+            {triviaQuestionElements}
+          </section>
+          {!isSubmitted ? (
+            <footer className="footer">
+              <button
+                className="button button--primary"
+                type="button"
+                onClick={handleClick}
+                disabled={!areAllAnswered}
+              >
+                Check answers
+              </button>
+            </footer>
+          ) : (
+            <footer className="footer">
+              <p className="footer__score">
+                You answered {correctScore} out of {questionCount} questions
+                correctly.
+              </p>
+              <button
+                className="button button--primary"
+                type="button"
+                onClick={resetGame}
+              >
+                Play again
+              </button>
+            </footer>
+          )}
+        </div>
+      )}
     </main>
   );
 }
