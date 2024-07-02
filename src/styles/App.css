@@ -1,10 +1,10 @@
 .app-container {
   background-image: url('../assets/intro-page.svg');
-  width: 550px;
-  height: 550px;
-  box-shadow: 0px 0px 50px 10px rgba(0, 0, 0, 0.25);
-  margin: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  aspect-ratio: 1 / 1;
   display: flex;
   justify-content: center;
-  border-radius: 0.25em;
 }
