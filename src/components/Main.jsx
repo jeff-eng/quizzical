@@ -144,8 +144,8 @@ export default function Main() {
           ) : (
             <footer className="footer">
               <p className="footer__score">
-                You answered {correctScore} out of {questionCount} questions
-                correctly.
+                {`You answered ${correctScore} out of ${questionCount} questions
+                correctly.`}
               </p>
               <button
                 className="button button--primary"

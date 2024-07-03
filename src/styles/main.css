@@ -17,15 +17,22 @@ main {
 
 .footer {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 1em;
+  height: max-content;
+  align-items: center;
 }
 
 .footer__score {
   font-weight: 700;
+  height: max-content;
+  text-align: center;
 }
 
 .button--primary {
   min-width: 104px;
+  height: max-content;
   padding: 1em 1.375em;
   border-radius: 10px;
 }
