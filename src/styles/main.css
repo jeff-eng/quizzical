@@ -17,6 +17,7 @@ main {
 
 .footer {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 1em;
   height: max-content;
@@ -26,6 +27,7 @@ main {
 .footer__score {
   font-weight: 700;
   height: max-content;
+  text-align: center;
 }
 
 .button--primary {
