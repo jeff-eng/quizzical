@@ -11,6 +11,10 @@
   padding: 0.5em 1em;
   transition: 0.3s ease-in-out;
   user-select: none;
+
+  &:focus {
+    outline: 5px solid #6b242a;
+  }
 }
 
 .answer__label--hoverable:hover {
