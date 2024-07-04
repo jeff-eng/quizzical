@@ -7,6 +7,7 @@ export default function TriviaQuestion({
   questionIndex,
   isSubmitted,
   handleChange,
+  handleKeyDown,
 }) {
   const { shuffledArray, id, correctAnswer, question, selectedAnswer } =
     questionObj;
@@ -22,6 +23,7 @@ export default function TriviaQuestion({
         name={`question${questionIndex}`}
         questionId={id}
         handleChange={handleChange}
+        handleKeyDown={handleKeyDown}
         isSubmitted={isSubmitted}
       />
     );
