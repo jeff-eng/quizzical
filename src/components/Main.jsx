@@ -150,7 +150,7 @@ export default function Main() {
                 type="button"
                 onClick={handleClick}
                 disabled={!areAllAnswered}
-                tabIndex={1}
+                tabIndex={0}
               >
                 Check answers
               </button>
@@ -166,7 +166,7 @@ export default function Main() {
                 type="button"
                 role="button"
                 onClick={resetGame}
-                tabIndex={1}
+                tabIndex={0}
               >
                 Play again
               </button>
