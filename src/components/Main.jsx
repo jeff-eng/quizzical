@@ -164,7 +164,6 @@ export default function Main() {
               <button
                 className="button button--primary"
                 type="button"
-                role="button"
                 onClick={resetGame}
                 tabIndex={0}
               >
