@@ -7,6 +7,7 @@ export default function AnswerChoice({
   name,
   questionId,
   handleChange,
+  handleKeyDown,
   isSubmitted,
   correctAnswer,
   selectedAnswer,
@@ -34,8 +35,14 @@ export default function AnswerChoice({
         name={name}
         value={answerText}
         onChange={() => handleChange(questionId, answerText)}
+        disabled={isSubmitted}
       />
-      <label className={answerLabelClasses} htmlFor={id}>
+      <label
+        className={answerLabelClasses}
+        htmlFor={id}
+        tabIndex={0}
+        onKeyDown={event => handleKeyDown(event, questionId, answerText)}
+      >
         {decode(answerText)}
       </label>
     </div>

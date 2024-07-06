@@ -82,6 +82,7 @@ export default function Main() {
       questionIndex={index}
       isSubmitted={isSubmitted}
       handleChange={handleChange}
+      handleKeyDown={handleKeyDown}
     />
   ));
 
@@ -104,6 +105,18 @@ export default function Main() {
 
     setCorrectScore(correctQuestions.length);
     setIsSubmitted(true);
+  }
+
+  function handleKeyDown(event, questionId, chosenAnswer) {
+    if (event.key === ' ' || event.key === 'Enter') {
+      setTriviaQuestions(prevTriviaQuestions =>
+        prevTriviaQuestions.map(question => {
+          return questionId === question.id
+            ? { ...question, selectedAnswer: chosenAnswer }
+            : question;
+        }),
+      );
+    }
   }
 
   // Update state variables for new round of trivia questions
@@ -137,6 +150,7 @@ export default function Main() {
                 type="button"
                 onClick={handleClick}
                 disabled={!areAllAnswered}
+                tabIndex={0}
               >
                 Check answers
               </button>
@@ -151,6 +165,7 @@ export default function Main() {
                 className="button button--primary"
                 type="button"
                 onClick={resetGame}
+                tabIndex={0}
               >
                 Play again
               </button>
