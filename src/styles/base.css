@@ -1,14 +1,16 @@
+@import url('variables.css');
+
 .button {
   font-family: 'Inter', sans-serif;
-  background-color: #4d5b9e;
+  background-color: var(--button-color);
   color: #f5f7fb;
   border-style: none;
   cursor: pointer;
   transition: 0.1s ease-in-out;
 
   &:hover {
-    background-color: #333d69;
-    color: #fffad1;
+    background-color: var(--button-hover-color);
+    color: var(--button-text-hover-color);
     transform: scale(1.05);
   }
 
