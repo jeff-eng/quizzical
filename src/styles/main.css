@@ -1,5 +1,5 @@
 main {
-  padding: 40px 75px 25px 75px;
+  padding: 2em 2em 1em;
   display: grid;
   overflow: scroll;
 }
@@ -35,4 +35,12 @@ main {
   height: max-content;
   padding: 1em 1.375em;
   border-radius: 10px;
+}
+
+@media (min-width: 390px) {
+  main {
+    padding: 2.5em 4.688em 1.563em;
+    display: grid;
+    overflow: scroll;
+  }
 }
