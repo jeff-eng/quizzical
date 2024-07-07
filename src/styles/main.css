@@ -1,0 +1,46 @@
+main {
+  padding: 2em 2em 1em;
+  display: grid;
+  overflow: scroll;
+}
+
+.trivia-container {
+  display: grid;
+  justify-items: center;
+  row-gap: 1.313em;
+}
+
+.trivia-questions {
+  display: grid;
+  row-gap: 1.188em;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
+  height: max-content;
+  align-items: center;
+}
+
+.footer__score {
+  font-weight: 700;
+  height: max-content;
+  text-align: center;
+}
+
+.button--primary {
+  min-width: 104px;
+  height: max-content;
+  padding: 1em 1.375em;
+  border-radius: 10px;
+}
+
+@media (min-width: 390px) {
+  main {
+    padding: 2.5em 4.688em 1.563em;
+    display: grid;
+    overflow: scroll;
+  }
+}

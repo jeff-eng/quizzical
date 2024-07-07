@@ -1,6 +1,6 @@
-# Travel Journal
+# Quizzical
 
-A static page built in React 18 for recording travel experiences.
+Description for project goes here...
 
 ## Table of contents
 

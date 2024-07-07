@@ -1,0 +1,22 @@
+.start-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 75%;
+  gap: 1em;
+}
+
+.start-header__description {
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+}
+
+.start-header__button {
+  width: 12em;
+  padding: 1em;
+  border-radius: 15px;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-top: 1em;
+}

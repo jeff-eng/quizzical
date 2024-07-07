@@ -1,0 +1,24 @@
+@import url('variables.css');
+
+.button {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--button-color);
+  color: #f5f7fb;
+  border-style: none;
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
+
+  &:hover {
+    background-color: var(--button-hover-color);
+    color: var(--button-text-hover-color);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(1.1);
+  }
+
+  &:focus {
+    box-shadow: 0 0 10px 10px rgba(0, 123, 255, 0.5);
+  }
+}

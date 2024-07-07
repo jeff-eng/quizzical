@@ -1,0 +1,11 @@
+.app-container {
+  background-image: url('../assets/intro-page.svg');
+  background-color: rgb(255, 250, 209);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+}
