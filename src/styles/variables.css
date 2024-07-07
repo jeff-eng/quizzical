@@ -1,0 +1,10 @@
+:root {
+  --correct-label-color: #94d7a2;
+  --incorrect-label-color: #f8bcbc;
+  --selected-label-color: #d6dbf5;
+  --label-color: #4d5b9e;
+
+  --button-color: #4d5b9e;
+  --button-hover-color: #333d69;
+  --button-text-hover-color: #fffad1;
+}
