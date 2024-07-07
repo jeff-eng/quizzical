@@ -1,3 +1,5 @@
+@import url('variables.css');
+
 .answer__radio-btn {
   display: none;
 }
@@ -6,7 +8,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 0.64rem;
   font-weight: 500;
-  border: 0.8px solid #4d5b9e;
+  border: 0.8px solid var(--label-color);
   border-radius: 8px;
   padding: 0.5em 1em;
   transition: 0.3s ease-in-out;
@@ -15,23 +17,23 @@
 
 .answer__label--hoverable:hover {
   cursor: pointer;
-  background-color: #4d5b9e;
+  background-color: var(--label-color);
   color: #f5f7fb;
 }
 
 .answer__label--selected {
-  background-color: #d6dbf5;
-  border: 0.8px solid #d6dbf5;
+  background-color: var(--selected-label-color);
+  border: 0.8px solid var(--selected-label-color);
 }
 
 .answer__label--correct {
-  background-color: #94d7a2;
-  border: 0.8px solid #94d7a2;
+  background-color: var(--correct-label-color);
+  border: 0.8px solid var(--correct-label-color);
 }
 
 .answer__label--incorrect {
-  background-color: #f8bcbc;
-  border: 0.8px solid #f8bcbc;
+  background-color: var(--incorrect-label-color);
+  border: 0.8px solid var(--incorrect-label-color);
   opacity: 50%;
 }
 
