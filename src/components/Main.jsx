@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import TriviaQuestion from './TriviaQuestion';
+import Footer from './Footer';
+import ScoreFooter from './ScoreFooter';
 import { nanoid } from 'nanoid';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 import '../styles/main.css';
@@ -9,7 +11,7 @@ export default function Main() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [areAllAnswered, setAreAllAnswered] = useState(false);
   const [correctScore, setCorrectScore] = useState(0);
-  const [questionCount, setQuestionCount] = useState(0);
+  const [questionCount, setQuestionCount] = useState(5);
   const [playCount, setPlayCount] = useState(0);
   const [isFetchingTrivia, setIsFetchingTrivia] = useState(false);
 
@@ -26,7 +28,9 @@ export default function Main() {
     // Async function to fetch new trivia questions
     async function getTriviaQuestions() {
       try {
-        const response = await fetch('https://opentdb.com/api.php?amount=5');
+        const response = await fetch(
+          `https://opentdb.com/api.php?amount=${questionCount}`,
+        );
         const data = await response.json();
         const triviaArray = await data.results.map(triviaObj => {
           return {
@@ -46,7 +50,6 @@ export default function Main() {
         });
 
         setTriviaQuestions(triviaArray);
-        setQuestionCount(triviaArray.length);
         setIsFetchingTrivia(false);
       } catch (err) {
         console.error(err);
@@ -144,35 +147,16 @@ export default function Main() {
             {triviaQuestionElements}
           </section>
           {!isSubmitted ? (
-            <footer className="footer">
-              {!areAllAnswered && (
-                <p>Not all questions have been answered yet.</p>
-              )}
-              <button
-                className="button button--primary"
-                type="button"
-                onClick={handleClick}
-                disabled={!areAllAnswered}
-                tabIndex={0}
-              >
-                Check answers
-              </button>
-            </footer>
+            <Footer
+              areAllAnswered={areAllAnswered}
+              handleClick={handleClick}
+            ></Footer>
           ) : (
-            <footer className="footer">
-              <p className="footer__score">
-                {`You answered ${correctScore} out of ${questionCount} questions
-                correctly.`}
-              </p>
-              <button
-                className="button button--primary"
-                type="button"
-                onClick={resetGame}
-                tabIndex={0}
-              >
-                Play again
-              </button>
-            </footer>
+            <ScoreFooter
+              correctScore={correctScore}
+              questionCount={questionCount}
+              resetGame={resetGame}
+            ></ScoreFooter>
           )}
         </div>
       )}
