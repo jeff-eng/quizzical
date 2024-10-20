@@ -5,9 +5,11 @@ main {
 }
 
 .trivia-container {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   justify-items: center;
   row-gap: 1.313em;
+  margin: auto;
 }
 
 .trivia-questions {
@@ -20,14 +22,11 @@ main {
   flex-wrap: wrap;
   justify-content: center;
   gap: 1em;
-  height: max-content;
   align-items: center;
 }
 
 .footer__score {
   font-weight: 700;
-  height: max-content;
-  text-align: center;
 }
 
 .button--primary {
@@ -40,7 +39,5 @@ main {
 @media (min-width: 390px) {
   main {
     padding: 2.5em 4.688em 1.563em;
-    display: grid;
-    overflow: scroll;
   }
 }
