@@ -1,12 +1,12 @@
 # Quizzical
 
-Description for project goes here...
+Quizzical is React-based trivia game that fetches trivia questions from the Open Trivia Database API, providing visual feedback for correct/incorrect answers and calculating the player score.
 
 ## Table of contents
 
 - [Overview](#overview)
   - [The challenge](#the-challenge)
-  - [Screenshot](#screenshot)
+  - [Screenshots](#screenshots)
   - [Links](#links)
 - [My process](#my-process)
   - [Built with](#built-with)
@@ -14,8 +14,6 @@ Description for project goes here...
   - [Continued development](#continued-development)
   - [Useful resources](#useful-resources)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
-
 
 ## Overview
 
@@ -23,68 +21,94 @@ Description for project goes here...
 
 Users should be able to:
 
-- Enter details here...
+- Click on 'Start Quiz' button to fetch a new set of questions from the [Open Trivia Database API](https://opentdb.com/api_config.php).
+- Select a single answer for each trivia question.
+- Submit answers and receive visual feedback showing correct and incorrect answers.
+- Click on 'Play again' to fetch a new set of trivia questions.
+- Navigate using the keyboard (accessibility).
 
-### Screenshot
+### Screenshots
 
-![](./screenshot.jpg)
-
-Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
+#### Demos using mouse navigation (left) and keyboard navigation (right)
+<div style="display: flex; gap: 2em">
+  <img src="./readme_assets/quizzical__full-demo.gif" alt="Quiz game app demonstration with mouse cursor navigation" style="max-height: 650px; object-fit: contain;"/>
+  <img src="./readme_assets/quizzical__keyboard-accessible.gif" alt="Quiz game app demonstration with keyboard navigation" style="max-height: 650px; object-fit: contain;"/>
+</div>
 
 ### Links
-
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
 - Live Site URL: [Add live site URL here](https://your-live-site-url.com)
 
 ## My process
 
 ### Built with
 
-- Semantic HTML5 markup
+- [Vite](https://vite.dev/) (build tool)
+- [React](https://reactjs.org/) - JS library
 - CSS custom properties
 - Flexbox
 - CSS Grid
 - Mobile-first workflow
-- [React](https://reactjs.org/) - JS library
 
 ### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+#### React Hooks
+- useEffect
+- useState
 
-To see how you can add code snippets, see below:
-
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
 ```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
+useEffect(() => {
+    setIsFetchingTrivia(true);
+    // Async function to fetch new trivia questions
+    async function getTriviaQuestions() {
+      try {
+        const response = await fetch('https://opentdb.com/api.php?amount=5');
+        const data = await response.json();
+        const triviaArray = await data.results.map(triviaObj => {
+          return {
+            id: nanoid(),
+            type: triviaObj.type,
+            difficulty: triviaObj.difficulty,
+            category: triviaObj.category,
+            question: triviaObj.question,
+            correctAnswer: triviaObj.correct_answer,
+            incorrectAnswers: triviaObj.incorrect_answers,
+            shuffledArray: shuffleArray([
+              ...triviaObj.incorrect_answers,
+              triviaObj.correct_answer,
+            ]),
+            selectedAnswer: '',
+          };
+        });
+
+        setTriviaQuestions(triviaArray);
+        setQuestionCount(triviaArray.length);
+        setIsFetchingTrivia(false);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    // Debounce to prevent rate limiting
+    const timeoutId = setTimeout(() => {
+      getTriviaQuestions();
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeoutId);
+      // Turn off loading animation
+      setIsFetchingTrivia(false);
+    };
+  }, [playCount]);
 ```
 
 ### Continued development
-
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
-
+- Allow player to select the number of trivia questions
+- 
 
 ### Useful resources
-
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
-
+- [A Complete Guide to useEffect](https://overreacted.io/a-complete-guide-to-useeffect/) - This helped me understand useEffect more in-depth. 
 
 ## Author
 
-- Website - [Add your name here](https://www.your-site.com)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
-- Twitter - [@yourusername](https://www.twitter.com/yourusername)
-
-
-## Acknowledgments
-
-This is where you can give a hat tip to anyone who helped you out on this project. Perhaps you worked in a team or got some inspiration from someone else's solution. This is the perfect place to give them some credit.
+- Portfolio - [Jeff Eng](https://www.jeffeng.com)
+- X - [@elev8eng](https://www.x.com/elev8eng)

@@ -13,7 +13,7 @@
 }
 
 .start-header__button {
-  width: 12em;
+  min-width: 12em;
   padding: 1em;
   border-radius: 15px;
   font-weight: 500;
